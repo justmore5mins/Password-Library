@@ -5,3 +5,8 @@ body {
     background-position: 0 0;
     font-family: 'JetBrains Mono', monospace;
 }
+
+.username{
+    top: 1500px;
+    right: 2000px;
+}
