@@ -1,10 +1,7 @@
 body {
     background-color: #fff;
-    background-image: linear-gradient(to bottom, #fff, #fff 0.95);
+    background-image: linear-gradient(to bottom, #fff, #f2f2f2 0.95);
     background-repeat: repeat;
     background-position: 0 0;
-}
-
-h2{
-    font-family: 'Noto Sans Math', sans-serif;
+    font-family: 'JetBrains Mono', monospace;
 }
