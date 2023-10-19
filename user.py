@@ -18,10 +18,12 @@ class User():
                     continue
                 username, password = line.split()
                 users.update(username,password)
-        if self.username in users & users[password] == self.password:
-            
+        if self.username in users and users[username] == self.password:
+            return 0
+        elif username not in users:
+            return 2
         else:
-            return 3
+            return 1
                 
                 
     def AddUser(self):
