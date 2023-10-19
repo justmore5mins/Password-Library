@@ -1,5 +1,5 @@
 class User():
-    def __init__(self,path, username:str, password:str) -> None:
+    def __init__(self,path: str, username:str, password:str) -> None:
         self.path = path
         self.username = username
         self.password = password
@@ -7,8 +7,8 @@ class User():
     def CheckUser(self) -> int:
         """
         0:scusses
-        1:no account
-        2:password wrong
+        1:password wrong
+        2:no account
         """
         users = {}
         with open(self.path) as f:
@@ -17,15 +17,14 @@ class User():
                 if line == "\n":
                     continue
                 username, password = line.split()
-                users.update(username,password)
+                users[username] = password
         if self.username in users and users[username] == self.password:
             return 0
-        elif username not in users:
-            return 2
-        else:
+        if self.username in users and users[username] != self.password:
             return 1
-                
-                
+        else: 
+            return 2
+
     def AddUser(self):
         data = f"{self.username} {self.password}"
         write = open(self.path,"a")

@@ -8,4 +8,4 @@ socketio = SocketIO(app)
 
 @app.route("/api/login", methods=["POST"])
 def login() -> int:
-    pass
+    
