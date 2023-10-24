@@ -1,5 +1,9 @@
+import sys
+sys.path.append("D:\Password_Library")
+
 from tkinter import Tk, Entry,Label,Button
-from 
+from command import *
+from time import sleep as delay
 
 login = Tk()
 user = User()
@@ -19,7 +23,9 @@ password_Text.place(x=65,y=125)
 password_entry = Entry(login,show="*")
 password_entry.place(x=43,y=150,width=120)
 sumbit_btn = Button(text="Log in",command=user.ReadUserData(username=username_entry,password=password_entry))
-username, password = user.userdata
-print(f"user {username} log in by password {password}")
+sumbit_btn.place(x=65,y=175)
+with open("front\data.cache", "r") as f:
+        username, password = f.readline().split()
+        print(f"user {username} log in by password {password}")
 
 login.mainloop()
