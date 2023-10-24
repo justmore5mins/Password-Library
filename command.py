@@ -6,5 +6,5 @@ class User:
         self.password:str
     
     def ReadUserData(self,username:Entry,password:Entry):
-        with open("front\data.cache","w", encoding="utf-8") as file:
+        with open("front\data.txt","w", encoding="utf-8") as file:
             file.write(f"{username.get()} {password.get()}")

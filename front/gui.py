@@ -24,8 +24,6 @@ password_entry = Entry(login,show="*")
 password_entry.place(x=43,y=150,width=120)
 sumbit_btn = Button(text="Log in",command=user.ReadUserData(username=username_entry,password=password_entry))
 sumbit_btn.place(x=65,y=175)
-with open("front\data.cache", "r") as f:
-        username, password = f.readline().split()
-        print(f"user {username} log in by password {password}")
+
 
 login.mainloop()
