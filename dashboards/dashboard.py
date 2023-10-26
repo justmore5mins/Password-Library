@@ -1,7 +1,9 @@
-from socket import socket,AF_INET,SOCK_STREAM
-recive = socket(AF_INET, SOCK_STREAM)
-recive.connect(("localhost",8787))
-recive.listen(2)
+from sys import path
+path.append("D:\Password_Library")
 
-data = recive.recv(1024).decode()
-print(data)
+from tkinter import Tk
+
+window = Tk()
+window.title("Password Library")
+
+window.mainloop()

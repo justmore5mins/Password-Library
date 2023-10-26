@@ -1,8 +1,9 @@
-import sys
-sys.path.append("D:\Password_Library")
+from sys import path
+path.append("D:\Password_Library")
 
 from tkinter import Tk, Entry,Label,Button
 from user import *
+from os import system
 login = Tk()
 
 #function defining
@@ -13,8 +14,10 @@ def continues():
         password = password_entry.get()
         data = username+" "+password
         print(data)
-        with open("data.txt","w") as file:
-            file.write(data)
+        with open("front/data.txt","w") as file:
+            file.write(f"{username}")
+        login.destroy()
+        system("python3 dashboards/dashboard.py")
         
     elif result == 1:
         password_wrong_text = Label(text="Password Wrong",fg="#FF8800")
@@ -25,10 +28,11 @@ def continues():
     
 
 #window setting
-login.title("Passowrd Library Login")
+login.title("Login")
 WIDTH = 200
 HEIGHT = 320
 login.geometry(f"{WIDTH}x{HEIGHT}")
+login.resizable(False,False)
 
 username_Text = Label(text="username")
 username_Text.place(x=65,y=75)
