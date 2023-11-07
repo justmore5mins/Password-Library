@@ -63,11 +63,9 @@ class Decrypt:
         with open(f"{username}/prikey.pem","rb") as file:
             read = b64decode(file.read())
         rsakey = rsa.PrivateKey.load_pkcs1(read)
-        system("cls")#checking
-        print(rsakey)
         #---------------AES----------------------
         with open(f"{username}/aes.txt","rb") as file:
-            key = b64decode(file.read().strip())
+            key = b64decode(file.read())
         text = AES.new(key,AES.MODE_CBC)
         aes = text.decrypt(data)
         return str(rsa.decrypt(aes,rsakey))
