@@ -3,7 +3,7 @@ from os import makedirs,system,remove
 
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
-import rsa
+from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes
 from os import urandom
 from base64 import b64decode, b64encode
@@ -17,11 +17,6 @@ class Encrypt:
             source: the name of website
             
         '''
-        '''
-        self.username = username
-        self.usrname,self.password,self.source = userdata
-        self.key = key
-        '''
         self.username = username
         self.password = password
         self.source = source
@@ -31,7 +26,8 @@ class Encrypt:
         public key, private key AESKey
         '''
         AESKey = urandom(16)
-        pubkey,prikey = rsa.newkeys(2048)
+        key = RSA.generate(1024)
+        pubkey = key.publickey()
 
         with open(f"{dir}/aes.txt","wb") as file:
             file.write(b64encode(AESKey))
@@ -68,7 +64,7 @@ class Decrypt:
         with open(f"{username}/aes.txt","rb") as file:
             key = b64decode(file.read())
         text = AES.new(key,AES.MODE_CBC)
-        aes = text.decrypt(pad(data,AES.block_size))
+        aes = text.decrypt(pad(data,))
         return str(rsa.decrypt(aes,rsakey))
         
         
