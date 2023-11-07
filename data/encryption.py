@@ -2,8 +2,8 @@ from os.path import exists
 from os import makedirs,system,remove
 
 from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad
 from Crypto.PublicKey import RSA
+from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes
 from os import urandom
 from base64 import b64decode, b64encode
@@ -26,15 +26,16 @@ class Encrypt:
         public key, private key AESKey
         '''
         AESKey = urandom(16)
-        key = RSA.generate(1024)
+        key = RSA.generate(2048)
         pubkey = key.publickey()
+        prikey = key.exportKey()
 
         with open(f"{dir}/aes.txt","wb") as file:
             file.write(b64encode(AESKey))
         with open(f"{dir}/pubkey.pem","wb") as file:
-            file.write(b64encode(pubkey.save_pkcs1()))
+            file.write(b64encode(pubkey.exportKey()))
         with open(f"{dir}/prikey.pem","wb") as file:
-            file.write(b64encode(prikey.save_pkcs1()))
+            file.write(b64encode(prikey))
 
         return pubkey, AESKey
         
@@ -42,9 +43,8 @@ class Encrypt:
         """
         using aes and rsa to encrypt data
         """
-        password = bytes(self.password,encoding="utf-8")
         pubkey,aeskey = self.__prepare(self.username)
-        rsaencrypt = rsa.encrypt(password,pubkey)
+        rsaencrypt = pubkey
         aes = AES.new(aeskey,AES.MODE_CBC).encrypt(rsaencrypt)
         last = b64encode(aes)
         
@@ -58,13 +58,16 @@ class Decrypt:
         except:
             pass
         with open(f"{username}/prikey.pem","rb") as file:
-            read = b64decode(file.read())
-        rsakey = rsa.PrivateKey.load_pkcs1(read)
+            with open(f"{username}/cache.pem","wb") as f:
+                f.write(b64decode(file.read()))
+        with open(f"{username}/cache.pem","rb") as file:
+            rsakey = rsa.PrivateKey.load_pkcs1(bytes(file.read()))
         #---------------AES----------------------
         with open(f"{username}/aes.txt","rb") as file:
             key = b64decode(file.read())
         text = AES.new(key,AES.MODE_CBC)
-        aes = text.decrypt(pad(data,))
+        aes = text.decrypt(b64decode(pad(data,AES.block_size)))
+        remove(f"{username}/cache.pem")
         return str(rsa.decrypt(aes,rsakey))
         
         
