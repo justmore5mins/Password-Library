@@ -2,6 +2,7 @@ from os.path import exists
 from os import makedirs,system,remove
 
 from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
 import rsa
 from Crypto.Random import get_random_bytes
 from os import urandom
@@ -67,7 +68,7 @@ class Decrypt:
         with open(f"{username}/aes.txt","rb") as file:
             key = b64decode(file.read())
         text = AES.new(key,AES.MODE_CBC)
-        aes = text.decrypt(data)
+        aes = text.decrypt(pad(data,AES.block_size))
         return str(rsa.decrypt(aes,rsakey))
         
         
